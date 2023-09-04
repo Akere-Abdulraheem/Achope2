@@ -216,7 +216,7 @@ function openPopup(network, amount, dataValue, phoneNumber) {
             custom_field_2: phoneNumber,
             custom_field_3: dataValue,
             currency: 'NGN', // Set the currency to Nigerian Naira
-            subaccount: 'ACCT_leb3a6upglhk9sm', // Subaccount identifier, if applicable
+            subaccount: 'ACCT_cd356rilazdkwy4', // Subaccount identifier, if applicable
             transaction_charge: 50, // Transaction charge, if applicable
             bearer: 'subaccount', // Payment bearer, if applicable
             callback: function (response) {
