@@ -176,21 +176,21 @@ function openPopup(network, amount, dataValue, phoneNumber) {
             <p><strong>Data Value:</strong> ${dataValue}</p>
             <p><strong>Phone Number:</strong> ${phoneNumber}</p>
         </div>
-       // <div class="paystack-form">
-       //      <h3>Complete Payment</h3>
-       //      <form id="paymentForm">
-       //          <div class="form-group">
-       //              <label for="email">Email Address</label>
-       //              <input type="email" id="email-address" required />
-       //          </div>
-       //          <br>
-       //          <div class="form-submit">
-       //              <button type="button" id="payButton"> Pay </button>
-       //          </div>
-       //      </form>
-       //  </div>
-       //  <div class="button-space"></div>
-       //  <button id="closePopup">Close</button>
+       <div class="paystack-form">
+            <h3>Complete Payment</h3>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email-address" required />
+                </div>
+                <br>
+                <div class="form-submit">
+                    <button type="button" id="payButton"> Pay </button>
+                </div>
+            </form>
+        </div>
+        <div class="button-space"></div>
+        <button id="closePopup">Close</button>
     `;
 
     // Find an HTML element with the ID "closePopup" and store it in the variable "closePopupButton"
@@ -203,5 +203,47 @@ function openPopup(network, amount, dataValue, phoneNumber) {
     });
 
     // Initialize Paystack payment when Pay button is clicked
-    initPaystackPayment(network, amount);
+    const payButton = document.getElementById("payButton");
+    const emailInput = document.getElementById("email-address");
+    // Add a click event listener to the "Pay" button
+    payButton.addEventListener("click", function () {
+        // Initialize Paystack payment
+        var handler = PaystackPop.setup({
+            key: pk_live_cb35225f4eec985a536967d7902aa22487bb72fa, // Your Paystack public key
+            email: emailInput.value, // Get the email from the input field
+            amount: amount * 100, // Convert the amount to kobo (100 kobo = 1 Naira)
+            custom_field_1: network,
+            custom_field_2: phoneNumber,
+            custom_field_3: dataValue,
+            currency: 'NGN', // Set the currency to Nigerian Naira
+            subaccount: 'ACCT_leb3a6upglhk9sm', // Subaccount identifier, if applicable
+            transaction_charge: 50, // Transaction charge, if applicable
+            bearer: 'subaccount', // Payment bearer, if applicable
+            callback: function (response) {
+                // This function is called when the payment is successful
+                var reference = response.reference;
+                alert('Payment complete! Reference: ' + reference);
+
+                // Make an AJAX call to your server to verify the transaction
+                const verificationData = {
+                    network: network,
+                    amount: amount,
+                    reference: reference
+                };
+
+                // Call a function to verify the transaction on your server
+                verifyTransaction(verificationData);
+
+                // You can use the network, amount, and reference here
+                // For example, send a POST request to your server
+            },
+            onClose: function () {
+                // This function is called when the payment window is closed
+                alert('Payment window closed.');
+            }
+        });
+
+        // Open the Paystack payment iframe
+        handler.openIframe();
+    });
 }
