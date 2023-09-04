@@ -209,7 +209,7 @@ function openPopup(network, amount, dataValue, phoneNumber) {
     payButton.addEventListener("click", function () {
         // Initialize Paystack payment
         var handler = PaystackPop.setup({
-            key: pk_live_cb35225f4eec985a536967d7902aa22487bb72fa, // Your Paystack public key
+            key: 'pk_test_a36196e0e57da2985d547ff354cd420aee807f01', // Your Paystack public key
             email: emailInput.value, // Get the email from the input field
             amount: amount * 100, // Convert the amount to kobo (100 kobo = 1 Naira)
             custom_field_1: network,
