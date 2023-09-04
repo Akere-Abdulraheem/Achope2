@@ -86,7 +86,7 @@ function updateDataValueDisplay() {
     const selectedAmount = amountSelect.value;
 
     // Look up the data value associated with the selected network and amount
-    //const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
+    const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
 
     // Update the content of the "dataValueDisplay" element with the selected data value
     dataValueDisplay.textContent = selectedDataValue;
