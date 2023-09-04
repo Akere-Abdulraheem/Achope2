@@ -155,3 +155,53 @@ submitOrderButton.addEventListener("click", function () {
     // If all validations pass, it calls the `openPopup` function
     openPopup(selectedNetwork, selectedAmount, selectedDataValue, phoneNumber);
 });
+
+// function openpopup
+function openPopup(network, amount, dataValue, phoneNumber) {
+    // This function takes four parameters: network, amount, dataValue, and phoneNumber.
+
+    // Display an overlay to cover the entire page with a semi-transparent background
+    overlay.style.display = "flex";
+
+    // Find an HTML element with the class "popup" and store it in the variable "popupContent"
+    const popupContent = document.querySelector(".popup");
+
+    // Update the content of the "popupContent" element with HTML markup
+    popupContent.innerHTML = `
+        <!-- This is an HTML template for the popup content -->
+        <div class="payment-details">
+            <h3>Payment Details</h3>
+            <p><strong>Network:</strong> ${network}</p>
+            <p><strong>Amount:</strong> ₦${amount}</p>
+            <p><strong>Data Value:</strong> ${dataValue}</p>
+            <p><strong>Phone Number:</strong> ${phoneNumber}</p>
+        </div>
+       // <div class="paystack-form">
+       //      <h3>Complete Payment</h3>
+       //      <form id="paymentForm">
+       //          <div class="form-group">
+       //              <label for="email">Email Address</label>
+       //              <input type="email" id="email-address" required />
+       //          </div>
+       //          <br>
+       //          <div class="form-submit">
+       //              <button type="button" id="payButton"> Pay </button>
+       //          </div>
+       //      </form>
+       //  </div>
+       //  <div class="button-space"></div>
+       //  <button id="closePopup">Close</button>
+    `;
+
+    // Find an HTML element with the ID "closePopup" and store it in the variable "closePopupButton"
+    const closePopupButton = document.getElementById("closePopup");
+
+    // Add a click event listener to the "closePopupButton"
+    closePopupButton.addEventListener("click", function () {
+        // When the button is clicked, hide the overlay, effectively closing the popup
+        overlay.style.display = "none";
+    });
+
+    // Initialize Paystack payment when Pay button is clicked
+    initPaystackPayment(network, amount);
+}
