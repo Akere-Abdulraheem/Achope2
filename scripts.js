@@ -83,7 +83,7 @@ function updateDataValueDisplay() {
     const selectedNetwork = networkSelect.value;
 
     // Get the selected amount from the "amountSelect" dropdown
-    //const selectedAmount = amountSelect.value;
+    const selectedAmount = amountSelect.value;
 
     // Look up the data value associated with the selected network and amount
     //const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
@@ -91,3 +91,9 @@ function updateDataValueDisplay() {
     // Update the content of the "dataValueDisplay" element with the selected data value
     dataValueDisplay.textContent = selectedDataValue;
 }
+
+// an event listener for the "amount" select
+amountSelect.addEventListener("change", function () {
+    // Updates the data value display when the "amount" selection changes
+    updateDataValueDisplay();
+});
