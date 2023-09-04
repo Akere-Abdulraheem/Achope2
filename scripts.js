@@ -46,22 +46,46 @@
         }
     };
 
-    // Populate amount options based on selected network
-    networkSelect.addEventListener("change", function () {
-        const selectedNetwork = networkSelect.value;
-        const amounts = priceList[selectedNetwork];
+// Populate amount options based on selected network
+networkSelect.addEventListener("change", function () {
+    // This part runs when the user changes the value in the "networkSelect" dropdown.
 
-        // Clear previous options
-        amountSelect.innerHTML = "";
+    // Get the currently selected value from the "networkSelect" dropdown
+    const selectedNetwork = networkSelect.value;
 
-        // Add new options
-        amounts.forEach(amount => {
-            const optionAmount = document.createElement("option");
-            optionAmount.value = amount;
-            optionAmount.textContent = `₦${amount}`;
-            amountSelect.appendChild(optionAmount);
-        });
+    // Look up a list of amounts associated with the selected network
+    const amounts = priceList[selectedNetwork];
 
-        // Update the data value display
-        updateDataValueDisplay();
+    // Clear the previous options in the "amountSelect" dropdown
+    amountSelect.innerHTML = "";
+
+    // Add new options to the "amountSelect" dropdown based on the selected network
+    amounts.forEach(amount => {
+        // Create a new <option> element
+        const optionAmount = document.createElement("option");
+
+        // Set the value of the <option> element to the selected amount
+        optionAmount.value = amount;
+
+        // Set the text content of the <option> element to display the amount with a currency symbol
+        optionAmount.textContent = `₦${amount}`;
+
+        // Append the new <option> element to the "amountSelect" dropdown
+        amountSelect.appendChild(optionAmount);
     });
+});
+
+// Function to update the data value display
+function updateDataValueDisplay() {
+    // Get the selected network from the "networkSelect" dropdown
+    const selectedNetwork = networkSelect.value;
+
+    // Get the selected amount from the "amountSelect" dropdown
+    //const selectedAmount = amountSelect.value;
+
+    // Look up the data value associated with the selected network and amount
+    //const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
+
+    // Update the content of the "dataValueDisplay" element with the selected data value
+    dataValueDisplay.textContent = selectedDataValue;
+}
