@@ -45,3 +45,23 @@
             2500: "10gb"
         }
     };
+
+    // Populate amount options based on selected network
+    networkSelect.addEventListener("change", function () {
+        const selectedNetwork = networkSelect.value;
+        const amounts = priceList[selectedNetwork];
+
+        // Clear previous options
+        amountSelect.innerHTML = "";
+
+        // Add new options
+        amounts.forEach(amount => {
+            const optionAmount = document.createElement("option");
+            optionAmount.value = amount;
+            optionAmount.textContent = `₦${amount}`;
+            amountSelect.appendChild(optionAmount);
+        });
+
+        // Update the data value display
+        updateDataValueDisplay();
+    });
