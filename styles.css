@@ -56,7 +56,7 @@ th {
 .error-message {
     color: red;
     font-size: 14px;
-    margin-top: 1em;
+    margin-bottom: 1em;
     display: none;
 }
 
