@@ -97,3 +97,61 @@ amountSelect.addEventListener("change", function () {
     // Updates the data value display when the "amount" selection changes
     updateDataValueDisplay();
 });
+
+
+// Handles form submission and open payment popup
+submitOrderButton.addEventListener("click", function () {
+    // Get the selected network from the "networkSelect" dropdown
+    const selectedNetwork = networkSelect.value;
+
+    // Get the selected amount from the "amountSelect" dropdown
+    const selectedAmount = amountSelect.value;
+
+    // Get the selected data value associated with the selected network and amount
+    const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
+
+    // Get the phone number entered by the user from the "phoneNumberInput" field
+    const phoneNumber = phoneNumberInput.value;
+
+    // Validate form fields
+    if (selectedAmount === "" || phoneNumber === "") {
+        // Display an error message if any required field is empty
+        displayErrorMessage("Please fill out all required fields.");
+        return;
+    }
+
+    // Validate phone number format
+    function validatePhoneNumber(phoneNumber) {
+        // Define a regular expression pattern for valid phone numbers (+234XXXXXXXXXX)
+        const phonePattern = /^\+234\d{10}$/;
+        
+        // Test if the provided phone number matches the pattern
+        return phonePattern.test(phoneNumber);
+    }
+
+    if (!validatePhoneNumber(phoneNumber)) {
+        // Display an error message if the phone number format is not valid
+        displayErrorMessage("Please enter a valid phone number in the format +234XXXXXXXXXX.");
+        return;
+    }
+
+    // Display error message
+    function displayErrorMessage(message) {
+        // Get the element with the ID "errorMessage"
+        const errorMessageElement = document.getElementById("errorMessage");
+        
+        // Set the text content of the error message element to the provided message
+        errorMessageElement.textContent = message;
+
+        // Display the error message element (make it visible)
+        errorMessageElement.style.display = "block";
+
+        // Use a timeout to hide the error message after 1 second (1000 milliseconds)
+        setTimeout(function () {
+            errorMessageElement.style.display = "none";
+        }, 1000);
+    }
+
+    // If all validations pass, it calls the `openPopup` function
+    openPopup(selectedNetwork, selectedAmount, selectedDataValue, phoneNumber);
+});
