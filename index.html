@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Achope Data Service</title>
+</head>
+<body>
+    <header>
+        <h1>Achope Data Service</h1>
+    </header>
+    <main>
+        <section class="pricing-table">
+            <h2>Pricing</h2>
+            <table>
+                <!-- Price list table content -->
+                <thead>
+                    <tr>
+                        <th>Network</th>
+                        <th>1GB</th>
+                        <th>2GB</th>
+                        <th>3GB</th>
+                        <th>5GB</th>
+                        <th>10GB</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9MOBILE</td>
+                        <td>$250</td>
+                        <td>$420</td>
+                        <td>$580</td>
+                        <td>$740</td>
+                        <td>$1900</td>
+                    </tr>
+                    <tr>
+                        <td>AIRTEL</td>
+                        <td>$300</td>
+                        <td>$550</td>
+                        <td>$950</td>
+                        <td>$1200</td>
+                        <td>$2250</td>
+                    </tr>
+                    <tr>
+                        <td>GLO</td>
+                        <td>$300</td>
+                        <td>$550</td>
+                        <td>$800</td>
+                        <td>$1200</td>
+                        <td>$2250</td>
+                    </tr>
+                    <tr>
+                        <td>MTN</td>
+                        <td>$300</td>
+                        <td>$550</td>
+                        <td>$800</td>
+                        <td>$1400</td>
+                        <td>$2500</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="order-form">
+            <h2>Place an Order</h2>
+            <form id="orderForm">
+                <label for="network">Select Network:</label>
+                <select id="network" name="network">
+                    <option value="9MOBILE">9MOBILE</option>
+                    <option value="AIRTEL">AIRTEL</option>
+                    <option value="GLO">GLO</option>
+                    <option value="MTN">MTN</option>
+                </select>
+                <br>
+                <label for="amount">Select Amount:</label>
+                <select id="amount" name="amount">
+                    <!-- Amount options will be populated dynamically in JavaScript -->
+                </select>
+                <br>
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" pattern="^\+234[0-9]{10}$" required />
+                <br>
+                <div class="error-message" id="errorMessage"></div>
+                <button type="button" id="submitOrder">Submit Order</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Achope Data Service. All rights reserved.</p>
+    </footer>
+    <div class="overlay" id="overlay">
+        <div class="popup">
+            <!-- Popup content (payment form) will be dynamically generated in JavaScript -->
+        </div>
+    </div>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js" integrity="sha512-aoTNnqZcT8B4AmeCFmiSnDlc4Nj/KPaZyB5G7JnOnUEkdNpCZs1LCankiYi01sLTyWy+m2P+W4XM+BuQ3Q4/Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="/js/scripts.js"></script>
+</body>
+</html>
