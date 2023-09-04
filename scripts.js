@@ -212,9 +212,6 @@ function openPopup(network, amount, dataValue, phoneNumber) {
             key: 'pk_test_a36196e0e57da2985d547ff354cd420aee807f01', // Your Paystack public key
             email: emailInput.value, // Get the email from the input field
             amount: amount * 100, // Convert the amount to kobo (100 kobo = 1 Naira)
-            custom_field_1: network,
-            custom_field_2: phoneNumber,
-            custom_field_3: dataValue,
             currency: 'NGN', // Set the currency to Nigerian Naira
             subaccount: 'ACCT_cd356rilazdkwy4', // Subaccount identifier, if applicable
             transaction_charge: 50, // Transaction charge, if applicable
