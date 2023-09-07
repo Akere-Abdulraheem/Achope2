@@ -205,15 +205,17 @@ function openPopup(network, amount, dataValue, phoneNumber) {
     // Initialize Paystack payment when Pay button is clicked
     const payButton = document.getElementById("payButton");
     const emailInput = document.getElementById("email-address");
+    const public = process.env.PAYSTACK_API_KEY_PUBLIC;
+    const subaccount = process.env.subaccount;
     // Add a click event listener to the "Pay" button
     payButton.addEventListener("click", function () {
         // Initialize Paystack payment
         var handler = PaystackPop.setup({
-            key: process.env.PAYSTACK_API_KEY_PUBLIC, // Your Paystack public key
+            key: public, // Your Paystack public key
             email: emailInput.value, // Get the email from the input field
             amount: amount * 100, // Convert the amount to kobo (100 kobo = 1 Naira)
             currency: 'NGN', // Set the currency to Nigerian Naira
-            subaccount: process.env.subaccount, // Subaccount identifier, if applicable
+            subaccount: subaccount, // Subaccount identifier, if applicable
             transaction_charge: 50, // Transaction charge, if applicable
             bearer: 'subaccount', // Payment bearer, if applicable
             callback: function (response) {
