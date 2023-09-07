@@ -1,10 +1,3 @@
-// const express = require('express');        // Import the Express.js framework.
-// const bodyParser = require('body-parser');  // Middleware for parsing JSON data.
-// const cors = require('cors');              // Middleware for handling Cross-Origin Resource Sharing (CORS).
-// const app = express();                     // Create an Express application.
-// app.use(cors());                           // Enable CORS for the app.
-// app.use(bodyParser.json());                // Parse JSON data in request bodies.
-
 // Set up Twilio credentials from environment variables.
 const accountSid = process.env.TWILIO_ACCOUNT_SID;    // Your Twilio Account SID.
 const authToken = process.env.TWILIO_AUTH_TOKEN;      // Your Twilio Auth Token.
@@ -13,7 +6,7 @@ const twilioRecipientPhoneNumber = process.env.TWILIO_RECIPIENT_PHONE_NUMBER; //
 const twilio = require('twilio')(accountSid, authToken); // Twilio SDK for sending SMS messages. // Create a Twilio client instance.
 
 // Define a route for handling SMS sending.
-app.post('./send-sms', (req, res) => {
+app.post('/scripts.js', (req, res) => {
     const message = req.body; // Extract phone number and message from the request body.
 
     // Use the Twilio client to send an SMS message.
