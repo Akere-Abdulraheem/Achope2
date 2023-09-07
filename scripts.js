@@ -265,7 +265,7 @@ function verifyTransaction(verificationData) {
             // If the server responds with a 'success' status
             const message = `Network: ${data.network}\nAmount: ₦${data.amount}\n${dataValue}\nPhone Number: ${phoneNumber}\nReference: ${data.reference}`;    
                     // Send data to the server for SMS sending
-                    fetch('/.netlify/functions/sendSMS', {
+                    fetch('/functions/sendSMS', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
