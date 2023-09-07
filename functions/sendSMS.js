@@ -1,20 +1,16 @@
-const express = require('express');        // Import the Express.js framework.
-const bodyParser = require('body-parser');  // Middleware for parsing JSON data.
-const cors = require('cors');              // Middleware for handling Cross-Origin Resource Sharing (CORS).
-const twilio = require('twilio');           // Twilio SDK for sending SMS messages.
-
-const app = express();                     // Create an Express application.
-app.use(cors());                           // Enable CORS for the app.
-app.use(bodyParser.json());                // Parse JSON data in request bodies.
+// const express = require('express');        // Import the Express.js framework.
+// const bodyParser = require('body-parser');  // Middleware for parsing JSON data.
+// const cors = require('cors');              // Middleware for handling Cross-Origin Resource Sharing (CORS).
+// const app = express();                     // Create an Express application.
+// app.use(cors());                           // Enable CORS for the app.
+// app.use(bodyParser.json());                // Parse JSON data in request bodies.
 
 // Set up Twilio credentials from environment variables.
 const accountSid = process.env.TWILIO_ACCOUNT_SID;    // Your Twilio Account SID.
 const authToken = process.env.TWILIO_AUTH_TOKEN;      // Your Twilio Auth Token.
 const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER; // Your Twilio phone number.
 const twilioRecipientPhoneNumber = process.env.TWILIO_RECIPIENT_PHONE_NUMBER; // Your Twilio phone number.
-
-// Create a Twilio client instance.
-const client = new twilio(accountSid, authToken);
+const twilio = require('twilio')(accountSid, authToken); // Twilio SDK for sending SMS messages. // Create a Twilio client instance.
 
 // Define a route for handling SMS sending.
 app.post('/send-sms', (req, res) => {
@@ -33,9 +29,4 @@ app.post('/send-sms', (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Error sending SMS' }); // Handle errors and respond with an error message.
     });
-});
-
-const PORT = process.env.PORT || 3000; // Define the port for the server to listen on.
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`); // Start the server and log a message when it's running.
 });
