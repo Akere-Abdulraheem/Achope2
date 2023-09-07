@@ -13,8 +13,8 @@ const twilioRecipientPhoneNumber = process.env.TWILIO_RECIPIENT_PHONE_NUMBER; //
 const twilio = require('twilio')(accountSid, authToken); // Twilio SDK for sending SMS messages. // Create a Twilio client instance.
 
 // Define a route for handling SMS sending.
-app.post('./scripts', (req, res) => {
-    const { message } = req.body; // Extract phone number and message from the request body.
+app.post('./send-sms', (req, res) => {
+    const message = req.body; // Extract phone number and message from the request body.
 
     // Use the Twilio client to send an SMS message.
     client.messages.create({
