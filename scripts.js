@@ -272,10 +272,28 @@ function verifyTransaction(verificationData) {
 
                 // Construct the payment information
                 const phoneNumber = '08122344910'; // Replace with the recipient's phone number
-                const paymentInfo = `Network: ${data.network}\nAmount: ₦${data.amount}\n${dataValue}\nPhone Number: ${phoneNumber}\nReference: ${data.reference}`;
+                const message = `Network: ${data.network}\nAmount: ₦${data.amount}\n${dataValue}\nPhone Number: ${phoneNumber}\nReference: ${data.reference}`;
 
                 // Send an SMS with Twilio by calling the sendSMS function
-                sendSMS(phoneNumber, paymentInfo);
+                //sendSMS(phoneNumber, paymentInfo);
+     
+                    // Send data to the server for SMS sending
+                    fetch('/send-sms', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ phoneNumber, message }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+});
+
             }
         } else {
             alert('Transaction verification failed.'); // If the server responds with a failure status, display an error message
