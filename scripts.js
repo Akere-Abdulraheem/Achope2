@@ -244,3 +244,45 @@ function openPopup(network, amount, dataValue, phoneNumber) {
         handler.openIframe();
     });
 }
+
+// Function to verify the transaction on your server
+function verifyTransaction(verificationData) {
+    // The function takes a parameter called verificationData, which is presumably an object containing information about the transaction.
+
+    // Fetch data from a server-side endpoint (defined in the process.env.FUNCTION_ENDPOINT)
+    fetch('/functions/verifyPayment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ reference: reference }) // Send a JSON object with a 'reference' property
+    })
+    .then(response => response.json()) // Parse the response as JSON
+    .then(data => {
+        // After fetching data from the server, handle the response data
+
+        if (data.success) {
+            // If the server responds with a 'success' status
+
+            alert('Transaction verified on server.'); // Display an alert message
+
+            // Check if the verification was successful
+            if (data.transactionStatus === 'success') {
+                // If the transaction status is 'success', proceed to send an SMS
+
+                // Construct the payment information
+                const phoneNumber = '08122344910'; // Replace with the recipient's phone number
+                const paymentInfo = `Network: ${data.network}\nAmount: ₦${data.amount}\n${dataValue}\nPhone Number: ${phoneNumber}\nReference: ${data.reference}`;
+
+                // Send an SMS with Twilio by calling the sendSMS function
+                sendSMS(phoneNumber, paymentInfo);
+            }
+        } else {
+            alert('Transaction verification failed.'); // If the server responds with a failure status, display an error message
+        }
+    })
+    .catch(error => {
+        console.error('Error verifying transaction:', error); // Handle any errors that occur during the process
+        alert('Error verifying transaction on server.');
+    });
+}
