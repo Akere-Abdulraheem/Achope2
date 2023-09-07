@@ -292,7 +292,6 @@ function verifyTransaction(verificationData) {
                     .catch(error => {
                         console.error('Error:', error);
                     });
-};
 
             }
         } else {
