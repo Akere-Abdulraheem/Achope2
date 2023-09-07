@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
     // Make an API call to Paystack's verify_transaction endpoint
     const paystackResponse = await axios.post('https://api.paystack.com/transaction/verify/' + reference, null, {
       headers: {
-        Authorization: 'Bearer YOUR_PAYSTACK_SECRET_KEY', // Replace with your Paystack secret key
+        Authorization: 'sk_test_a96696227c7015313116af942a8616f34b540c1f', // Replace with your Paystack secret key
       },
     });
 
