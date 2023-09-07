@@ -209,11 +209,11 @@ function openPopup(network, amount, dataValue, phoneNumber) {
     payButton.addEventListener("click", function () {
         // Initialize Paystack payment
         var handler = PaystackPop.setup({
-            key: 'pk_test_a36196e0e57da2985d547ff354cd420aee807f01', // Your Paystack public key
+            key: process.env.PAYSTACK_API_KEY_PUBLIC, // Your Paystack public key
             email: emailInput.value, // Get the email from the input field
             amount: amount * 100, // Convert the amount to kobo (100 kobo = 1 Naira)
             currency: 'NGN', // Set the currency to Nigerian Naira
-            subaccount: 'ACCT_cd356rilazdkwy4', // Subaccount identifier, if applicable
+            subaccount: process.env.subaccount, // Subaccount identifier, if applicable
             transaction_charge: 50, // Transaction charge, if applicable
             bearer: 'subaccount', // Payment bearer, if applicable
             callback: function (response) {
