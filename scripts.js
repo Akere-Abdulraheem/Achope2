@@ -271,7 +271,7 @@ function verifyTransaction(verificationData) {
                 // If the transaction status is 'success', proceed to send an SMS
 
                 // Construct the payment information
-                const phoneNumber = '08122344910'; // Replace with the recipient's phone number
+                //const phoneNumber = '08122344910'; // Replace with the recipient's phone number
                 const message = `Network: ${data.network}\nAmount: ₦${data.amount}\n${dataValue}\nPhone Number: ${phoneNumber}\nReference: ${data.reference}`;
 
                 // Send an SMS with Twilio by calling the sendSMS function
@@ -283,7 +283,7 @@ function verifyTransaction(verificationData) {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ phoneNumber, message }),
+                        body: JSON.stringify({ message }),
                     })
                     .then(response => response.json())
                     .then(data => {
