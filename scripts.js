@@ -263,22 +263,9 @@ function verifyTransaction(verificationData) {
 
         if (data.success) {
             // If the server responds with a 'success' status
-
-            alert('Transaction verified on server.'); // Display an alert message
-
-            // Check if the verification was successful
-            if (data.transactionStatus === 'success') {
-                // If the transaction status is 'success', proceed to send an SMS
-
-                // Construct the payment information
-                //const phoneNumber = '08122344910'; // Replace with the recipient's phone number
-                const message = `Network: ${data.network}\nAmount: ₦${data.amount}\n${dataValue}\nPhone Number: ${phoneNumber}\nReference: ${data.reference}`;
-
-                // Send an SMS with Twilio by calling the sendSMS function
-                //sendSMS(phoneNumber, paymentInfo);
-     
+            const message = `Network: ${data.network}\nAmount: ₦${data.amount}\n${dataValue}\nPhone Number: ${phoneNumber}\nReference: ${data.reference}`;    
                     // Send data to the server for SMS sending
-                    fetch('/functions/sendSMS', {
+                    fetch('/send-sms', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -292,9 +279,9 @@ function verifyTransaction(verificationData) {
                     .catch(error => {
                         console.error('Error:', error);
                     });
-
-            }
-        } else {
+         alert('Transaction verified on server.'); // Display an alert message
+        }
+        else {
             alert('Transaction verification failed.'); // If the server responds with a failure status, display an error message
         }
     })
