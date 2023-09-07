@@ -278,7 +278,7 @@ function verifyTransaction(verificationData) {
                 //sendSMS(phoneNumber, paymentInfo);
      
                     // Send data to the server for SMS sending
-                    fetch('/send-sms', {
+                    fetch('/functions/sendSMS', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
