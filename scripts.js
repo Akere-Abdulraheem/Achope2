@@ -233,6 +233,38 @@ function openPopup(network, amount, dataValue, phoneNumber) {
 
                 // You can use the network, amount, and reference here
                 // For example, send a POST request to your server
+                // Collect additional information
+            const selectedNetwork = networkSelect.value;
+            const selectedAmount = amountSelect.value;
+            const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
+            const phoneNumber = phoneNumberInput.value;
+
+            // Create a JSON object with the collected data
+            const requestData = {
+                network: selectedNetwork,
+                amount: selectedAmount,
+                dataValue: selectedDataValue,
+                phoneNumber: phoneNumber,
+                paymentReference: reference, // Include the payment reference
+                emailAddress: emailInput.value, // Include the email address
+            };
+
+            // Send a POST request to the Netlify function
+            fetch('/functions/sendSMS.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the Netlify function if needed
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        },
             },
             onClose: function () {
                 // This function is called when the payment window is closed
