@@ -1,3 +1,27 @@
+exports.handler = async (event) => {
+  try {
+    // Import the data from one.js
+    const dataToCollect = require('./one.js');
+
+      // Access the data from one.js
+    const body = dataToCollect.body;
+
+      // Return a success response
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'Success', messageSid: message.sid }),
+    };
+  } catch (error) {
+    console.error(error);
+
+    // Return an error response
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Failed to send SMS' }),
+    };
+  }
+};
+
 // Set up Twilio credentials from environment variables.
 const accountSid = process.env.TWILIO_ACCOUNT_SID;    // Your Twilio Account SID.
 const authToken = process.env.TWILIO_AUTH_TOKEN;      // Your Twilio Auth Token.
