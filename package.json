@@ -1,9 +1,19 @@
 {
-  "name": "Achope2",
+  "name": "achope2",
   "version": "1.0.0",
-  "description":" For a vtu project",
-  "main": "scripts.js", 
-  "dependencies": {
-    "twilio": "^3.73.0",
-}
+  "description": "test for https://github.com/Akere-Abdulraheem/Achope_Data_Service",
+  "main": "scripts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akere-Abdulraheem/Achope2.git"
+  },
+  "author": "abdulraheem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akere-Abdulraheem/Achope2/issues"
+  },
+  "homepage": "https://github.com/Akere-Abdulraheem/Achope2#readme"
 }
