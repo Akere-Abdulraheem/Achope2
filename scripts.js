@@ -231,7 +231,7 @@ function openPopup(network, amount, dataValue, phoneNumber) {
                 // Call a function to verify the transaction on your server
                 verifyTransaction(verificationData);
                },
-            },
+            }),
             onClose: function () {
                 // This function is called when the payment window is closed
                 alert('Payment window closed.');
