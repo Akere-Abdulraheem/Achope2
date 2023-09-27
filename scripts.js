@@ -231,17 +231,17 @@ function openPopup(network, amount, dataValue, phoneNumber) {
                 // Call a function to verify the transaction on your server
                 verifyTransaction(verificationData);
                },
-            }),
-            onClose: function () {
+            },
+            onClose, function () {
                 // This function is called when the payment window is closed
                 alert('Payment window closed.');
             }
-        });
+        );
 
         // Open the Paystack payment iframe
         handler.openIframe();
     });
-}
+
 
 // Function to verify the transaction on your server
 function verifyTransaction(verificationData) {
@@ -293,4 +293,5 @@ function verifyTransaction(verificationData) {
         console.error('Error verifying transaction:', error); // Handle any errors that occur during the process
         alert('Error verifying transaction on server.');
     });
+}
 }
