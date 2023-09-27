@@ -1,49 +1,36 @@
+const twilio = require('twilio')
+
 exports.handler = async (event) => {
   try {
-    // Import the data from one.js
-    const dataToCollect = require('./one.js');
+    // Import the data
+    const dataToSend = JSON.parse(event.body);
 
-      // Access the data from one.js
-    const body = dataToCollect.body;
+      // Access the data
+    const { network, amount, dataValue, phoneNumber, paymentReference} = dataToSend
 
-      // Return a success response
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Success', messageSid: message.sid }),
-    };
-  } catch (error) {
-    console.error(error);
+    const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID,process.env.TWILIO_AUTH_TOKEN);
 
-    // Return an error response
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to send SMS' }),
-    };
-  }
-};
-
-// Set up Twilio credentials from environment variables.
-const accountSid = process.env.TWILIO_ACCOUNT_SID;    // Your Twilio Account SID.
-const authToken = process.env.TWILIO_AUTH_TOKEN;      // Your Twilio Auth Token.
+    // Set up Twilio credentials from environment variables.
 const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER; // Your Twilio phone number.
 const twilioRecipientPhoneNumber = process.env.TWILIO_RECIPIENT_PHONE_NUMBER; // Your Twilio phone number.
-const twilio = require('twilio')(accountSid, authToken); // Twilio SDK for sending SMS messages. // Create a Twilio client instance.
 
-// Define a route for handling SMS sending.
-app.post('/functions/sendSMS', (req, res) => {
-    const message = req.body; // Extract phone number and message from the request body.
-
-    // Use the Twilio client to send an SMS message.
-    twilio.messages.create({
-        body: message,                  // Message content.
+await twilioClient.messages.create({
+        body: `Network: ${network}, amount:${amount}, data:${dataValue}, phone Number:${phoneNumber} `,// Message content.
         to: twilioRecipientPhoneNumber, // Recipient's phone number.
         from: twilioPhoneNumber,       // Your Twilio phone number.
-    })
-    .then(message => {
-        res.json({ message: `SMS sent: ${message.sid}` }); // Respond with success message.
-    })
-    .catch(error => {
-        console.error(error);
-        res.status(500).json({ error: 'Error sending SMS' }); // Handle errors and respond with an error message.
     });
-});
+    
+    return {
+        statusCode: 200,
+        body: JSON.string({ message: `SMS sent: ${message.sid}` }); // Respond with success message.
+    };
+}
+  .catch(error => {
+        console.error(error);
+
+        return {
+        statusCode: 200,
+        body: JSON.string({ message: `SMS sent: ${message.sid}` }); // Respond with success message.
+    };
+}
+         };
