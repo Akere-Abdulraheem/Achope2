@@ -236,12 +236,12 @@ function openPopup(network, amount, dataValue, phoneNumber) {
                 // This function is called when the payment window is closed
                 alert('Payment window closed.');
             }
-        );
+        });
 
         // Open the Paystack payment iframe
         handler.openIframe();
     });
-
+}
 
 // Function to verify the transaction on your server
 function verifyTransaction(verificationData) {
@@ -294,4 +294,4 @@ function verifyTransaction(verificationData) {
         alert('Error verifying transaction on server.');
     });
 }
-}
+});
