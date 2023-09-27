@@ -1,3 +1,9 @@
+{
+  "name": "Achope 2",
+  "version": "1.0.0"
+  "description":" For a vtu project"
+  "main": "scripts.js", 
+},
 "dependencies": {
     "twilio": "^3.73.0",
 }
