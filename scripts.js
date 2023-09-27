@@ -232,7 +232,7 @@ function openPopup(network, amount, dataValue, phoneNumber) {
                 verifyTransaction(verificationData);
                },
             },
-            onClose, function () {
+            onClose: function () {
                 // This function is called when the payment window is closed
                 alert('Payment window closed.');
             }
