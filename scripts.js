@@ -293,4 +293,3 @@ function verifyTransaction(verificationData) {
         alert('Error verifying transaction on server.');
     });
 }
-});
