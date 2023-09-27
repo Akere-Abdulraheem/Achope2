@@ -229,7 +229,7 @@ function openPopup(network, amount, dataValue, phoneNumber) {
                 };
 
                 // Call a function to verify the transaction on your server
-                verifyTransaction(verificationData);
+                verifyTransaction(verificationData, selectedNetwork, selectedAmount, selectedDataValue, phoneNumber);
                },
             onClose: function () {
                 // This function is called when the payment window is closed
@@ -243,7 +243,7 @@ function openPopup(network, amount, dataValue, phoneNumber) {
 }
 
 // Function to verify the transaction on your server
-function verifyTransaction(verificationData) {
+function verifyTransaction(verificationData, selectedNetwork, selectedAmount, selectedDataValue, phoneNumber) {
     // The function takes a parameter called verificationData, which is presumably an object containing information about the transaction.
 
     // Fetch data from a server-side endpoint (defined in the process.env.FUNCTION_ENDPOINT)
