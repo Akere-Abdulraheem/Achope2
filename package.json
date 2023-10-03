@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Akere-Abdulraheem/Achope2.git"
   },
-  "dependencies":{
+  "dependencies": {
     "twilio": "4.18.0"
   },
   "author": "abdulraheem",
