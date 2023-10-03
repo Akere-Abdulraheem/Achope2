@@ -261,11 +261,16 @@ function verifyTransaction(verificationData, selectedNetwork, selectedAmount, se
         if (data.success) {
             // If the server responds with a 'success' status
             const message = {
-                Network: selectedNetwork,
-                Amount: selectedAmount,
-                dataValue: selectedDataValue,
-                phoneNumber: phoneNumber,
-                paymentReference: reference,
+                network: 'rgfrehe',
+                Amount: '24355',
+                dataVAlue: 'rhrjfj',
+                phoneNumber: 'gvhrje',
+                paymentReference: 'frhe',
+                // Network: selectedNetwork,
+                // Amount: selectedAmount,
+                // dataValue: selectedDataValue,
+                // phoneNumber: phoneNumber,
+                // paymentReference: reference,
             }
                     // Send data to the server for SMS sending
                     fetch('/functions/sendSMS', {
