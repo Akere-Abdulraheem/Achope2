@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const sms = require('../functions/sendSMS');
+const initiateAndVerifyPayment = require("../functions/verifyPayment");
 
 router.get('/', (req,res) => {
     res.render('index')
@@ -26,4 +27,34 @@ router.post('/send-sms', async (req, res) => {
   }
   });
 
-module.exports =router;
+// Route to initiate payment and send SMS after payment
+router.post("/send-sms-after-payment", async (req, res) => {
+    const { selectedAmount, selectedDataValue, selectedNetwork, phoneNumber, email } = req.body;
+
+    try {
+        // Define the order data (you should structure this data according to your requirements)
+        const orderData = {
+            amount: selectedAmount,
+            dataValue: selectedDataValue,
+            network: selectedNetwork,
+            phoneNumber: phoneNumber,
+            email: email,
+        };
+
+        // Initiate and verify the payment using Paystack
+        const paymentResult = await initiateAndVerifyPayment(orderData);
+
+        if (paymentResult) {
+            // Payment is successful, proceed to send SMS
+            const result = await sendSMS(selectedAmount, selectedDataValue, selectedNetwork, phoneNumber);
+            res.json({ success: true, message: result });
+        } else {
+            res.status(400).json({ success: false, message: "Payment failed or not verified." });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Error processing payment or sending SMS." });
+    }
+});
+
+module.exports = router;

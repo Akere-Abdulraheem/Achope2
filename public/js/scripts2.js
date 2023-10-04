@@ -76,17 +76,12 @@ amountSelect.addEventListener("change", function () {
     updateDataValueDisplay();
 });
 
-//979217
-
 submitOrderButton.addEventListener("click", () => {
-
-    // const messageData ={
         const selectedNetwork = networkSelect.value;
         const selectedAmount = amountSelect.value;
         const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
         const phoneNumber = phoneNumberInput.value;
 
-    // }
     if (selectedAmount === "" || phoneNumber === "") {
         displayErrorMessage("Please fill out all required fields.");
         return;
@@ -101,6 +96,60 @@ if (!validatePhoneNumber(phoneNumber)) {
     displayErrorMessage("Please enter a valid phone number in the format +234XXXXXXXXXX.");
     return;
 }
+openPopup(selectedNetwork, selectedAmount, selectedDataValue, phoneNumber);
+});
+
+function openPopup(network, amount, dataValue, phoneNumber) {
+      overlay.style.display = "flex";
+    const popupContent = document.querySelector(".popup");
+
+    // Update the content of the "popupContent" element with HTML markup
+    popupContent.innerHTML = `
+        <!-- This is an HTML template for the popup content -->
+        <div class="payment-details">
+            <h3>Payment Details</h3>
+            <p><strong>Network:</strong> ${network}</p>
+            <p><strong>Amount:</strong> ₦${amount}</p>
+            <p><strong>Data Value:</strong> ${dataValue}</p>
+            <p><strong>Phone Number:</strong> ${phoneNumber}</p>
+        </div>
+       <div class="paystack-form">
+            <h3>Complete Payment</h3>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email-address" required />
+                </div>
+                <br>
+                <div class="form-submit">
+                    <button type="button" id="payButton"> Pay </button>
+                </div>
+            </form>
+        </div>
+        <div class="button-space"></div>
+        <button id="closePopup">Close</button>
+    `;
+
+    // Find an HTML element with the ID "closePopup" and store it in the variable "closePopupButton"
+    const closePopupButton = document.getElementById("closePopup");
+
+    // Add a click event listener to the "closePopupButton"
+    closePopupButton.addEventListener("click", function () {
+        // When the button is clicked, hide the overlay, effectively closing the popup
+        overlay.style.display = "none";
+    });
+
+    // Initialize Paystack payment when Pay button is clicked
+    const payButton = document.getElementById("payButton");
+    const emailInput = document.getElementById("email-address");
+    // Add a click event listener to the "Pay" button
+    payButton.addEventListener("click", function () {
+
+    });
+}       
+
+              
+
 
 // Make an AJAX POST request to your Node.js server
 fetch("/send-sms", {
@@ -117,7 +166,6 @@ fetch("/send-sms", {
     .catch((error) => {
       console.error(error);
     });
-});
 
 function displayErrorMessage(message) {
     const errorMessageElement = document.getElementById("errorMessage");
