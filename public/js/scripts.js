@@ -47,9 +47,9 @@
     };
 
 // Populate amount options based on selected network
+// This part runs when the user changes the value in the "networkSelect" dropdown.
 networkSelect.addEventListener("change", function () {
-    // This part runs when the user changes the value in the "networkSelect" dropdown.
-
+    
     // Get the currently selected value from the "networkSelect" dropdown
     const selectedNetwork = networkSelect.value;
 
