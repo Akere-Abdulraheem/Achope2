@@ -1,10 +1,12 @@
 const axios = require('axios');
 
-exports.handler = async (event, context) => {
+exports.initiateAndVerifyPayment = async (event, context) => {
   try {
-    const { network, amount, reference } = JSON.parse(event.body);
+    const { email, amount, reference } = JSON.parse(event.body);
     // Make an API call to Paystack's verify_transaction endpoint
-    const paystackResponse = await axios.post('https://api.paystack.com/transaction/verify/' + reference, null, {
+    const paystackResponse = await axios.post('https://api.paystack.com/transaction/verify/' + reference,{
+    amount, email
+    },{
       headers: {
         Authorization: process.env.PAYSTACK_API_KEY_SECRET
       },
@@ -13,19 +15,19 @@ exports.handler = async (event, context) => {
     if (paystackResponse.data.status === true) {
       return {
         statusCode: 200,
-        body: JSON.stringify({ message: 'Payment verification successful' }),
+        body: JSON.stringify({ success: true, message: 'Payment verification successful' }),
       };
     } else {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Payment verification failed' }),
+        body: JSON.stringify({ success: false, error: 'Payment verification failed' }),
       };
     }
   } catch (error) {
     console.error('Error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Payment verification failed' }),
+      body: JSON.stringify({ success: false, error: 'Payment verification failed' }),
     };
   }
 };

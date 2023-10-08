@@ -12,7 +12,7 @@ const priceList = {
     "MTN": [300, 550, 800, 1400, 2500]
 };
 
- const dataValues = {
+const dataValues = {
     "9MOBILE": {
         250: "1gb",
         420: "2gb",
@@ -47,7 +47,7 @@ networkSelect.addEventListener("change", function () {
     const selectedNetwork = networkSelect.value;
     const amounts = priceList[selectedNetwork];
     amountSelect.innerHTML = "";
-    
+
     // Add new options to the "amountSelect" dropdown based on the selected network
     amounts.forEach(amount => {
         // Create a new <option> element
@@ -60,8 +60,9 @@ networkSelect.addEventListener("change", function () {
         amountSelect.appendChild(optionAmount);
     });
     // Update the data value display
-    updateDataValueDisplay();        
+    updateDataValueDisplay();
 });
+
 // Function to update the data value display
 function updateDataValueDisplay() {
     // Get the selected network from the "networkSelect" dropdown
@@ -70,38 +71,41 @@ function updateDataValueDisplay() {
     // Get the selected amount from the "amountSelect" dropdown
     const selectedAmount = amountSelect.value;
 }
-// an event listener for the "amount" select
+
+// An event listener for the "amount" select
 amountSelect.addEventListener("change", function () {
     // Updates the data value display when the "amount" selection changes
     updateDataValueDisplay();
 });
 
 submitOrderButton.addEventListener("click", () => {
-        const selectedNetwork = networkSelect.value;
-        const selectedAmount = amountSelect.value;
-        const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
-        const phoneNumber = phoneNumberInput.value;
+    const selectedNetwork = networkSelect.value;
+    const selectedAmount = amountSelect.value;
+    const selectedDataValue = dataValues[selectedNetwork][selectedAmount];
+    const phoneNumber = phoneNumberInput.value;
 
     if (selectedAmount === "" || phoneNumber === "") {
         displayErrorMessage("Please fill out all required fields.");
         return;
     }
 
-function validatePhoneNumber(phoneNumber) {
-    const phonePattern = /^\+234\d{10}$/;
-    return phonePattern.test(phoneNumber);
-}
+    function validatePhoneNumber(phoneNumber) {
+        const phonePattern = /^\+234\d{10}$/;
+        return phonePattern.test(phoneNumber);
+    }
 
-if (!validatePhoneNumber(phoneNumber)) {
-    displayErrorMessage("Please enter a valid phone number in the format +234XXXXXXXXXX.");
-    return;
-}
-openPopup(selectedNetwork, selectedAmount, selectedDataValue, phoneNumber);
+    if (!validatePhoneNumber(phoneNumber)) {
+        displayErrorMessage("Please enter a valid phone number in the format +234XXXXXXXXXX.");
+        return;
+    }
+
+    openPopup(selectedNetwork, selectedAmount, selectedDataValue, phoneNumber);
 });
 
 function openPopup(network, amount, dataValue, phoneNumber) {
-      overlay.style.display = "flex";
-    const popupContent = document.querySelector(".popup");
+    overlay.style.display = "flex";
+    const popupContent = document.createElement("div");
+    popupContent.className = "popup-content";
 
     // Update the content of the "popupContent" element with HTML markup
     popupContent.innerHTML = `
@@ -113,7 +117,7 @@ function openPopup(network, amount, dataValue, phoneNumber) {
             <p><strong>Data Value:</strong> ${dataValue}</p>
             <p><strong>Phone Number:</strong> ${phoneNumber}</p>
         </div>
-       <div class="paystack-form">
+        <div class="paystack-form">
             <h3>Complete Payment</h3>
             <form id="paymentForm">
                 <div class="form-group">
@@ -130,48 +134,92 @@ function openPopup(network, amount, dataValue, phoneNumber) {
         <button id="closePopup">Close</button>
     `;
 
-    // Find an HTML element with the ID "closePopup" and store it in the variable "closePopupButton"
-    const closePopupButton = document.getElementById("closePopup");
+    // Updated code after changes
+    const closePopupButton = popupContent.querySelector("#closePopup");
 
-    // Add a click event listener to the "closePopupButton"
     closePopupButton.addEventListener("click", function () {
         // When the button is clicked, hide the overlay, effectively closing the popup
         overlay.style.display = "none";
     });
 
     // Initialize Paystack payment when Pay button is clicked
-    const payButton = document.getElementById("payButton");
-    const emailInput = document.getElementById("email-address");
-    // Add a click event listener to the "Pay" button
-    payButton.addEventListener("click", function () {
+    const payButton = popupContent.querySelector("#payButton");
 
+    payButton.addEventListener("click", async function () {
+        // Initialize Paystack payment
+        var handler = PaystackPop.setup({
+            key: 'pk_test_a36196e0e57da2985d547ff354cd420aee807f01', // Your Paystack public key
+            email: popupContent.querySelector("#email-address").value, // Get the email from the input field
+            amount: amount * 100, // Convert the amount to kobo (100 kobo = 1 Naira)
+            currency: 'NGN', // Set the currency to Nigerian Naira
+            subaccount: 'ACCT_cd356rilazdkwy4', // Subaccount identifier, if applicable
+            transaction_charge: 50, // Transaction charge, if applicable
+            bearer: 'subaccount', // Payment bearer, if applicable
+            // Callback function for handling payment response
+            callback: function (response) {
+                // Check if the payment was successful
+                if (response.status === 'success') {
+                    // Payment successful, you can display a success message to the user
+                    showSuccessMessage('Payment successful! Thank you for using our service.');
+                    // Send data to your server for SMS processing (see step 3)
+                    sendPaymentDataToServer(response.reference);
+                } else {
+                    // Payment failed or was not completed
+                    showError('Payment failed or was not completed. Please try again.');
+                }
+            }, onClose: function () {
+                // This function is called when the payment window is closed
+                alert('Payment window closed.');
+            }
+        });
+        // Open the Paystack payment iframe
+        handler.openIframe();
     });
-}       
 
-              
+    overlay.appendChild(popupContent);
+}
 
+function sendPaymentDataToServer(paymentReference) {
+    const selectedNetwork = networkSelect.value;
+    const selectedAmount = amountSelect.value;
+    const phoneNumber = phoneNumberInput.value;
 
-// Make an AJAX POST request to your Node.js server
-fetch("/send-sms", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({selectedAmount, selectedDataValue, selectedNetwork,phoneNumber}),
-  })
-    .then((response) => response.json())
-    .then( () => {
-      console.log('Sucess'); // You can handle the response from the server here
+    // Create an object with payment data
+    const paymentData = {
+        paymentReference: paymentReference,
+        selectedNetwork: selectedNetwork,
+        selectedAmount: selectedAmount,
+        phoneNumber: phoneNumber,
+    };
+
+    // Make a POST request to your server
+    fetch('/send-sms', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData),
     })
-    .catch((error) => {
-      console.error(error);
-    });
-
-function displayErrorMessage(message) {
-    const errorMessageElement = document.getElementById("errorMessage");
-    errorMessageElement.textContent = message;
-    errorMessageElement.style.display = "block";
-    setTimeout(function () {
-        errorMessageElement.style.display = "none";
-    }, 1000);
-}     
+        .then(response => {
+            if (response.ok) {
+                // Payment data sent successfully
+                return response.json();
+            } else {
+                // Handle server error
+                throw new Error('Failed to send payment data to server.');
+            }
+        })
+        .then(data => {
+            if (data.success) {
+                // Server processed the payment data successfully
+                console.log('Payment data sent to server:', data.message);
+            } else {
+                // Server encountered an error processing the data
+                console.error('Server error:', data.message);
+            }
+        })
+        .catch(error => {
+            // Handle any network or server errors
+            console.error('Error sending payment data:', error);
+        });
+}

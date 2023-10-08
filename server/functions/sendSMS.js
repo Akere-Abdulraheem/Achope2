@@ -10,7 +10,7 @@ const twilioPhoneNumber = process.env.YOUR_TWILIO_PHONE_NUMBER;
 const client = new twilio(accountSid, authToken);
 
 // Function to send an SMS
-async function sendSMS(selectedAmount, selectedDataValue, selectedNetwork, phoneNumber) {
+exports.sendSMS = async function sendSMS(selectedAmount, selectedDataValue, selectedNetwork, phoneNumber) {
   try {
     // Construct your SMS message based on the input parameters
     const message = `Amount: ${selectedAmount}, Data Value: ${selectedDataValue}, Network: ${selectedNetwork} Number: ${phoneNumber}`;
@@ -29,5 +29,3 @@ async function sendSMS(selectedAmount, selectedDataValue, selectedNetwork, phone
     throw new Error('Error sending SMS');
   }
 }
-
-module.exports = sendSMS;
